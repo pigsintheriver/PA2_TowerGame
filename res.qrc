@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/image">
+        <file alias="clt_notinfight">image/clticon.jpg</file>
+        <file alias="fart_dist1">image/IMG_1037(20221119-110053).jpg</file>
+        <file alias="clt_fight">image/IMG_1039(20221119-110337).jpg</file>
+        <file alias="mwicon">image/mwicon.jpeg</file>
+        <file alias="clt_notinfight2">image/IMG_1043(20221122-215644).jpg</file>
+        <file alias="monster1">image/monster1.jpg</file>
+        <file alias="monster1_2">image/monster1_2.jpg</file>
+    </qresource>
+</RCC>
