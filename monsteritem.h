@@ -4,7 +4,22 @@
 #include <vector>
 #define MONSTER_HP 5
 #define MONSTER_ATK 1
+
+#define DEBUG
 using std::vector;
+
+//记录走在路径上的怪兽的方向
+enum Direction{
+    LEFT,RIGHT,UP,DOWN,END
+};
+
+class Pathgrid{
+public:
+    pair<int,int> coord;//记录路径的坐标信息
+    Direction d=RIGHT;
+    bool barrier=false;//记录此时此格上是否有近战塔
+};
+
 class Monsteritem:public Creatureitem
 {
     Q_OBJECT
@@ -16,11 +31,16 @@ public:
     void advance(int phase);
 
     void setwalkstatus(bool walkstatus);//怪物若遇到阻拦则无法继续前进
-    //int pathidx=0;//记录怪物此时走到了路径的第几格
-    static vector<pair<int,int>> path_barrier;//怪兽类中的静态变量，存储整个道路上的种有近战植物而无法前进的道路
-private:
-    bool walk=true;//该怪兽此时是否能活动
 
+    static void init_pathvec(vector<pair<int,int>>& _pathvec);
+    static void addpathbarrier(pair<int,int> _barrierpos);
+    static void delete_barrier(pair<int,int> _barrier);//删除死去的近战塔坐标的函数
+    static vector<Pathgrid> path_vec;
+signals:
+    void gameend();
+private:
+    bool walk;//该怪兽此时是否能活动
+    int pathidx;//该怪兽此时行走到路径第几格
 };
 
 #endif // MONSTERITEM_H

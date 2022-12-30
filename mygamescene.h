@@ -31,7 +31,7 @@ public slots:
     void myadvance();
 
 private:
-    void getrandpath(vector<pair<int,int>> &path);
+    void getrandpath();//给定地图的长宽之后随机生成路径的函数  TODO
     int scenew;
     int sceneh;
     vector<pair<int,int>> path;

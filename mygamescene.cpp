@@ -10,7 +10,7 @@ mygamescene::mygamescene(int w,int h,QObject *parent)
 {
     scenew=w;
     sceneh=h;
-    getrandpath(path);
+    getrandpath();
     for(int i=0;i<w;i++){
         grids.push_back(vector<Grid*>());
         for(int j=0;j<h;j++){
@@ -58,11 +58,11 @@ void mygamescene::addcltitem(QPointF scenepos)
     pair<int,int> mappos(int(scenepos.x()/100),int(scenepos.y()/100));
     //近战塔只能在路径上种植且一个格子内部只能种一个，路径首尾不能种
     if(grids[mappos.first][mappos.second]->cltcnt==0&&std::find(path.begin(),path.end(),make_pair(mappos.first,mappos.second))!=path.end()&&mappos!=path[0]&&mappos!=path[path.size()-1]){
-        QPointF realpos(mappos.first*WDOT,mappos.second*HDOT);
-        qDebug()<<realpos;
+//        QPointF realpos(mappos.first*WDOT,mappos.second*HDOT);
         CloseToweritem* newclt=new CloseToweritem(mappos);
         this->addItem(newclt);
         grids[mappos.first][mappos.second]->cltcnt++;
+        Monsteritem::addpathbarrier(mappos);//将种有植物的路径方格坐标添加至path_barrier
     }
 }
 
@@ -85,7 +85,7 @@ void mygamescene::myadvance()
     QGraphicsScene::advance();
 }
 
-void mygamescene::getrandpath(vector<pair<int, int> > &path)
+void mygamescene::getrandpath()
 {
     path.push_back(std::make_pair(0,1));
     path.push_back(std::make_pair(1,1));
@@ -94,5 +94,8 @@ void mygamescene::getrandpath(vector<pair<int, int> > &path)
     path.push_back(std::make_pair(3,2));
     path.push_back(std::make_pair(3,3));
     path.push_back(std::make_pair(3,4));
+
+//    Monsteritem::pathgrid_vec=path;//将路径信息输入到怪兽类中记录路径的数组
+    Monsteritem::init_pathvec(path);
 }
 

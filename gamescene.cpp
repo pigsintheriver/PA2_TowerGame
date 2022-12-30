@@ -41,7 +41,6 @@ GameScene::GameScene(QWidget *parent,int _w,int _h) :
     connect(timer_creatmonster,&QTimer::timeout,scene,&mygamescene::creat_a_monster);
     timer_creatmonster->start(3000);
 #endif
-    //    qDebug()<<"create a new gamescene";
 }
 
 GameScene::~GameScene()

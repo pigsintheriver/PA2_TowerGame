@@ -3,7 +3,7 @@
 #define WDOT 100
 #define HDOT 100
 
-//#define DEBUG
+#define DEBUG
 #include <QMainWindow>
 #include "mygamescene.h"
 #include "mygraphicsview.h"

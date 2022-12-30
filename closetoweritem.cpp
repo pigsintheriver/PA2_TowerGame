@@ -18,13 +18,8 @@ QRectF CloseToweritem::boundingRect() const
 }
 
 void CloseToweritem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{/*
-    QRectF rect=this->boundingRect();*/
+{
     QRect rect=this->boundingRect().toRect();
-//    qDebug()<<rect;
-//    qDebug()<<rect.top()<<rect.left();
-//    painter->setPen(QPen(Qt::black));
-//    painter->drawRect(rect.left()+25,rect.top()+25,50,50);
     painter->drawPixmap(rect.left()+25,rect.top()+25,50,50,this->pixmap());
 }
 
@@ -36,11 +31,18 @@ void CloseToweritem::advance(int phase)
     timecnt++;
     if(timecnt==10){
         timecnt=0;
-//        qDebug()<<"one round end";
     }
+
+    //TODO
+    //近战塔的图标发生变化（仅战斗状态？）
     if(timecnt%2)
         this->setPixmap(QPixmap(":/image/clt_notinfight2"));
     else
         this->setPixmap(QPixmap(":/image/clt_notinfight"));
 
+    //近战塔死亡时
+    if(hp<=0){
+        Monsteritem::delete_barrier(gridpos);
+        emit dead(this);
+    }
 }
