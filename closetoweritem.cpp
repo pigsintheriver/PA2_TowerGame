@@ -10,11 +10,16 @@ CloseToweritem::CloseToweritem(QPointF originalpos):Creatureitem(QPixmap(":/imag
 CloseToweritem::CloseToweritem(std::pair<int, int> _gridpos):Creatureitem(QPixmap(":/image/clt_notinfight"),_gridpos,CLOSETOWER_HP,CLOSETOWER_ATK)
 {
     type=0;
+    this->setPos(_gridpos.first*WDOT,_gridpos.second*HDOT);
+}
+
+CloseToweritem::~CloseToweritem()
+{
 }
 
 QRectF CloseToweritem::boundingRect() const
 {
-    return QRectF(posinscene.x(),posinscene.y(),100,100);
+    return QRectF(0,0,100,100);
 }
 
 void CloseToweritem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

@@ -4,6 +4,7 @@
 
 #include <QObject>
 #include <QGraphicsScene>
+#include <QTimer>
 #include <vector>
 #include<utility>
 #include<algorithm>
@@ -28,8 +29,10 @@ public:
     void addfartitem(QPointF scenepos);
 public slots:
     void creat_a_monster();
+    void delete_item(Creatureitem* _item);
     void myadvance();
-
+signals:
+    void gameended();//由怪物向scene传递游戏结束的信号
 private:
     void getrandpath();//给定地图的长宽之后随机生成路径的函数  TODO
     int scenew;

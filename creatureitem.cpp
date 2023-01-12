@@ -18,9 +18,25 @@ Creatureitem::Creatureitem(const QPixmap &pixmap, std::pair<int, int> _gridpos, 
     posinscene.setY(gridpos.second*HDOT);
 }
 
+Creatureitem::~Creatureitem()
+{
+
+}
+
 int Creatureitem::getitemtype()
 {
     return type;
+}
+
+void Creatureitem::getattack(int enemyATK)
+{
+    hp=(hp>enemyATK?hp-enemyATK:0);
+    qDebug()<<"be attacked";
+}
+
+void Creatureitem::atk(Creatureitem *enemy)
+{
+    enemy->getattack(attack);
 }
 
 void Creatureitem::advance(int phase)

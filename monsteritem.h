@@ -26,6 +26,7 @@ class Monsteritem:public Creatureitem
 public:
     Monsteritem(QPointF originalpos);
     Monsteritem(pair<int,int> _gridpos);
+    ~Monsteritem();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void advance(int phase);

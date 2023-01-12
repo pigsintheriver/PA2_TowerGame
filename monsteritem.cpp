@@ -1,6 +1,7 @@
 #include "monsteritem.h"
 #include <QPainter>
-
+#include <QList>
+#include <QGraphicsScene>
 vector<Pathgrid> Monsteritem::path_vec(0);//初始化类中的静态数据成员
 Monsteritem::Monsteritem(QPointF originalpos):Creatureitem(QPixmap(":/image/monster1"),originalpos,MONSTER_HP,MONSTER_ATK)
 {
@@ -13,7 +14,12 @@ Monsteritem::Monsteritem(std::pair<int, int> _gridpos):Creatureitem(QPixmap(":/i
     walk=true;
     pathidx=0;
     this->setPos(_gridpos.first*WDOT,_gridpos.second*HDOT);
-//    this->setTransformOriginPoint(mapToScene(50,50));
+    //    this->setTransformOriginPoint(mapToScene(50,50));
+}
+
+Monsteritem::~Monsteritem()
+{
+
 }
 
 QRectF Monsteritem::boundingRect() const
@@ -30,19 +36,38 @@ void Monsteritem::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
 void Monsteritem::advance(int phase)
 {
-    //TODO
     if(phase==0) return;
-    qDebug()<<this->scenePos();
+//    for(auto item:path_vec){
+//        qDebug()<<item.coord<<' '<<item.barrier;
+//    }
     timecnt++;
     if(timecnt==2) {
         timecnt=0;
     }
-    if(path_vec[pathidx].d==RIGHT) this->setPos(mapToParent(WDOT,0));
-    else if(path_vec[pathidx].d==LEFT) this->setPos(mapToParent(-WDOT,0));
-    else if(path_vec[pathidx].d==UP) this->setPos(mapToParent(0,-HDOT));
-    else if(path_vec[pathidx].d==DOWN) this->setPos(mapToParent(0,HDOT));
-    else if(path_vec[pathidx].d==END) emit gameend();
-    pathidx++;
+//    int wide_1=WDOT;//怪兽水平方向行走一个单位的路程
+//    int height_1=HDOT;//怪兽竖直方向行走一个单位的路程
+
+    if(path_vec[pathidx].barrier) this->walk=false;
+    else this->walk=true;
+    if(this->walk){
+        if(path_vec[pathidx].d==RIGHT) this->setPos(mapToParent(WDOT,0));
+        else if(path_vec[pathidx].d==LEFT) this->setPos(mapToParent(-WDOT,0));
+        else if(path_vec[pathidx].d==UP) this->setPos(mapToParent(0,-HDOT));
+        else if(path_vec[pathidx].d==DOWN) this->setPos(mapToParent(0,HDOT));
+        else if(path_vec[pathidx].d==END) emit gameend();
+        pathidx++;
+    }
+    QList<QGraphicsItem*>collideitems=scene()->collidingItems(this);
+    if(!collideitems.isEmpty()){
+        //如果检测到有碰撞发生,遍历发生碰撞的item
+        for(int i=0;i<collideitems.size();i++){
+            Creatureitem* item=(Creatureitem*)collideitems.at(i);
+            if(item->getitemtype()!=MONSTER){
+                this->atk(item);
+            }
+        }
+    }
+
     if(timecnt%2) this->setPixmap(QPixmap(":/image/monster1_2"));
     else this->setPixmap(QPixmap(":/image/monster1"));
 
@@ -74,18 +99,13 @@ void Monsteritem::init_pathvec(std::vector<std::pair<int, int> > &_pathvec)
         path_vec.push_back(tmp);
     }
 
-#ifdef DEBUG
-    for(auto item:path_vec)
-        qDebug()<<item.coord<<item.d<<item.barrier;
-#endif
 }
 
 void Monsteritem::addpathbarrier(std::pair<int, int> _barrierpos)
 {
-    //设置相应位置的障碍
-    for(auto pathgrid:path_vec){
-        if(pathgrid.coord==_barrierpos){
-            pathgrid.barrier=true;
+    for(int i=0;i<path_vec.size();i++){
+        if(path_vec[i].coord==_barrierpos){
+            path_vec[i].barrier=true;
             break;
         }
     }
@@ -94,9 +114,9 @@ void Monsteritem::addpathbarrier(std::pair<int, int> _barrierpos)
 void Monsteritem::delete_barrier(std::pair<int, int> _barrier)
 {
     //清除障碍
-    for(auto pathgrid:path_vec){
-        if(pathgrid.coord==_barrier){
-            pathgrid.barrier=false;
+    for(int i=0;i<path_vec.size();i++){
+        if(path_vec[i].coord==_barrier){
+            path_vec[i].barrier=false;
             break;
         }
     }

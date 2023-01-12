@@ -18,8 +18,10 @@ class Creatureitem:public QObject,public QGraphicsPixmapItem
 public:
     Creatureitem(const QPixmap &pixmap,QPointF originalpos,int _hp,int _attack);
     Creatureitem(const QPixmap &pixmap,pair<int,int> _gridpos,int _hp,int _attack);
+    virtual ~Creatureitem();
     int getitemtype();
-
+    void getattack(int enemyATK);
+    void atk(Creatureitem* enemy);
 signals:
     void dead(Creatureitem* deaditem);
 public slots:

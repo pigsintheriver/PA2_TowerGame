@@ -22,6 +22,7 @@ public:
     void test();
 private slots:
     void back2mw_clicked();
+    void gameEND();
 //    void setCLT();
 //    void setFART();
 signals:

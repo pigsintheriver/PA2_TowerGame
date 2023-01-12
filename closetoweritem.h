@@ -11,6 +11,7 @@ class CloseToweritem:public Creatureitem
 public:
     CloseToweritem(QPointF originalpos);
     CloseToweritem(pair<int,int> _gridpos);
+    ~CloseToweritem();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     void advance(int phase);

@@ -58,10 +58,10 @@ void mygamescene::addcltitem(QPointF scenepos)
     pair<int,int> mappos(int(scenepos.x()/100),int(scenepos.y()/100));
     //近战塔只能在路径上种植且一个格子内部只能种一个，路径首尾不能种
     if(grids[mappos.first][mappos.second]->cltcnt==0&&std::find(path.begin(),path.end(),make_pair(mappos.first,mappos.second))!=path.end()&&mappos!=path[0]&&mappos!=path[path.size()-1]){
-//        QPointF realpos(mappos.first*WDOT,mappos.second*HDOT);
         CloseToweritem* newclt=new CloseToweritem(mappos);
         this->addItem(newclt);
         grids[mappos.first][mappos.second]->cltcnt++;
+        connect(newclt,&Creatureitem::dead,this,&mygamescene::delete_item);//将近战塔的死亡信号与清除函数绑定
         Monsteritem::addpathbarrier(mappos);//将种有植物的路径方格坐标添加至path_barrier
     }
 }
@@ -73,11 +73,18 @@ void mygamescene::addfartitem(QPointF scenepos)
 
 void mygamescene::creat_a_monster()
 {
-    QPointF mstpos(path[0].first*WDOT,path[0].second*HDOT);
     Monsteritem* newmst=new Monsteritem(path[0]);
     this->addItem(newmst);
-    connect(newmst,&Creatureitem::dead,this,&QGraphicsScene::removeItem);
+    connect(newmst,&Creatureitem::dead,this,&mygamescene::delete_item);
+    connect(newmst,&Monsteritem::gameend,this,&mygamescene::gameended);
 }
+
+void mygamescene::delete_item(Creatureitem *_item)
+{
+    this->removeItem(_item);
+    delete _item;
+}
+
 
 void mygamescene::myadvance()
 {
