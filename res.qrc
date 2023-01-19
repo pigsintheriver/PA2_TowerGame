@@ -7,5 +7,8 @@
         <file alias="clt_notinfight2">image/IMG_1043(20221122-215644).jpg</file>
         <file alias="monster1">image/monster1.jpg</file>
         <file alias="monster1_2">image/monster1_2.jpg</file>
+        <file alias="closetowergif">image/closetower.GIF</file>
+        <file alias="monstergif">image/monster.GIF</file>
+        <file alias="bloodminus1">image/bloodminus1.jpg</file>
     </qresource>
 </RCC>

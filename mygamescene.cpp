@@ -85,6 +85,12 @@ void mygamescene::delete_item(Creatureitem *_item)
     delete _item;
 }
 
+void mygamescene::delete_icon(Bloodminusitem *deadicon)
+{
+    this->removeItem(deadicon);
+    delete deadicon;
+}
+
 
 void mygamescene::myadvance()
 {
@@ -94,6 +100,7 @@ void mygamescene::myadvance()
 
 void mygamescene::getrandpath()
 {
+    //TODO:
     path.push_back(std::make_pair(0,1));
     path.push_back(std::make_pair(1,1));
     path.push_back(std::make_pair(2,1));

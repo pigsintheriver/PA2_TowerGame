@@ -10,6 +10,7 @@
 #include<algorithm>
 #include "monsteritem.h"
 #include "closetoweritem.h"
+#include "bloodminusitem.h"
 using namespace std;
 class Grid{
 public:
@@ -30,6 +31,7 @@ public:
 public slots:
     void creat_a_monster();
     void delete_item(Creatureitem* _item);
+    void delete_icon(Bloodminusitem* deadicon);
     void myadvance();
 signals:
     void gameended();//由怪物向scene传递游戏结束的信号

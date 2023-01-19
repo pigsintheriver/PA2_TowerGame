@@ -1,6 +1,7 @@
 #ifndef MONSTERITEM_H
 #define MONSTERITEM_H
 #include "creatureitem.h"
+#include "myitem.h"
 #include <vector>
 #define MONSTER_HP 5
 #define MONSTER_ATK 1
@@ -24,7 +25,7 @@ class Monsteritem:public Creatureitem
 {
     Q_OBJECT
 public:
-    Monsteritem(QPointF originalpos);
+//    Monsteritem(QPointF originalpos);
     Monsteritem(pair<int,int> _gridpos);
     ~Monsteritem();
     QRectF boundingRect() const;

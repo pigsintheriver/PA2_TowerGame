@@ -9,24 +9,30 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    bloodminusitem.cpp \
     closetoweritem.cpp \
     creatureitem.cpp \
+    fartoweritem.cpp \
     gamescene.cpp \
     main.cpp \
     mainwindow.cpp \
     monsteritem.cpp \
     mygamescene.cpp \
     mygraphicsview.cpp \
+    myitem.cpp \
     settingsdialog.cpp
 
 HEADERS += \
+    bloodminusitem.h \
     closetoweritem.h \
     creatureitem.h \
+    fartoweritem.h \
     gamescene.h \
     mainwindow.h \
     monsteritem.h \
     mygamescene.h \
     mygraphicsview.h \
+    myitem.h \
     settingsdialog.h
 
 FORMS += \

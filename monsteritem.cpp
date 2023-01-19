@@ -3,18 +3,17 @@
 #include <QList>
 #include <QGraphicsScene>
 vector<Pathgrid> Monsteritem::path_vec(0);//初始化类中的静态数据成员
-Monsteritem::Monsteritem(QPointF originalpos):Creatureitem(QPixmap(":/image/monster1"),originalpos,MONSTER_HP,MONSTER_ATK)
-{
-    type=3;
-}
+//Monsteritem::Monsteritem(QPointF originalpos):Creatureitem(QPixmap(":/image/monster1"),originalpos,MONSTER_HP,MONSTER_ATK)
+//{
+//    type=3;
+//}
 
 Monsteritem::Monsteritem(std::pair<int, int> _gridpos):Creatureitem(QPixmap(":/image/monster1"),_gridpos,MONSTER_HP,MONSTER_ATK)
 {
-    type=3;
+    type=MONSTER;
     walk=true;
     pathidx=0;
     this->setPos(_gridpos.first*WDOT,_gridpos.second*HDOT);
-    //    this->setTransformOriginPoint(mapToScene(50,50));
 }
 
 Monsteritem::~Monsteritem()
@@ -61,15 +60,16 @@ void Monsteritem::advance(int phase)
     if(!collideitems.isEmpty()){
         //如果检测到有碰撞发生,遍历发生碰撞的item
         for(int i=0;i<collideitems.size();i++){
-            Creatureitem* item=(Creatureitem*)collideitems.at(i);
-            if(item->getitemtype()!=MONSTER){
-                this->atk(item);
+            Myitem* genitem=(Myitem*)collideitems.at(i);
+            if(genitem->getgentype()>=0){//判断是生物
+                Creatureitem* item=(Creatureitem*)collideitems.at(i);
+                if(item->getitemtype()==CLOSETOWER||item->getitemtype()==FARTOWER){
+                    //如果发生碰撞的item不是子弹或者怪兽的话则进行攻击
+                    this->atk(item);
+                }
             }
         }
     }
-
-    if(timecnt%2) this->setPixmap(QPixmap(":/image/monster1_2"));
-    else this->setPixmap(QPixmap(":/image/monster1"));
 
     Creatureitem::advance(phase);
 }
